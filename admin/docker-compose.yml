@@ -1,0 +1,26 @@
+version: '3.8'
+services: 
+    backend:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 8000:8000
+        volumes:
+            - .:/app
+        depends_on: 
+            - db
+
+    db:
+        image: mysql:8.0.19
+        restart: always
+        environment:
+            MYSQL_DATABASE: micro_services
+            MYSQL_USER: djangouser
+            MYSQL_PASSWORD: root1234
+            MYSQL_ROOT_PASSWORD: root55
+        command: mysqld --default-authentication-plugin=mysql_native_password --skip-mysqlx
+        volumes: 
+            - .dbdata:/var/lib/mysql
+        ports:
+            - 3306:3307
